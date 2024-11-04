@@ -1,0 +1,155 @@
+<program> ::= <class> | <class> <program>
+
+<class> ::= "public class" <class_identifier> "{" <class_member>* "}"
+
+<class_members> <class_member> <class_members>
+
+<class_member> ::=  <variable_declaration> ";" | <method_declaration> | <class> | ε
+
+<variable_declaration> ::= [<modifier>] <type> <var_identifier> <optional_assignment> [<more_declarations>]
+
+<optional_assignment> ::= "=" <expression> | ε
+
+<more_declarations> ::= "," <var_identifier> <optional_assignment> [<more_declarations>]
+
+<method_declaration> ::= [<modifier>] <method_type> <meth_identifier> "(" [<parameter_list>] ")" "{" <method_definition> "}"
+
+<method_definition> ::= <statements> 
+                        | ε
+
+<modifier> ::= "public" | "private"
+
+<var_type> ::= "int" | "char" | "double" | "boolean" | "String" | <class_identifier>
+
+<method_type> ::= <var_type> | "void"
+
+<var_identifier> ::= {<letter> | "_"} {<letter> | <digit> | "_"}*
+
+<class_identifier> ::= <capital> | <capital> <var_identifier>
+
+<meth_identifier> ::= <var_identifier>
+
+<parameter_list> ::= <var_type> <var_identifier> | <var_type> <var_identifier> "," <parameter_list> | ε
+
+<statements> ::= <statement> <statements> | ε
+
+<statement> ::= ε
+               | <variable_declaration> ";"
+               | <assignment_statement> ";"
+               | <method_call_statement> ";"
+               | <object_creation_statement> ";"
+               | <loop_statement>
+               | <control_statement>
+               | <print_statement>
+               | <return_statement>
+               | <break_statement> 
+               | <comment>
+
+<assignment_statement> ::= <var_identifier> "=" <expression>
+                         | <variable_call_statement> "=" <expression>
+
+<expression> ::= <literal>
+               | <var_identifier>
+               | <variable_call_statement>
+               | <method_call_statement>
+               | <object_creation_statement>
+               | "(" <expression> ")"
+               | <expression> <operator> <expression>
+
+<operator> ::= "+" | "-" | "*" | "/"
+
+<method_call_statement> ::= <class_identifier> "." <meth_identifier> "(" [<argument_list>] ");"
+
+<argument_list> ::= <expression> | <expression> "," <argument_list> | ε
+
+<object_creation_statement> ::= <class_identifier> <var_identifier> "=" "new" <class_identifier> "(" ")"
+
+<loop_statement> ::= <do_while_loop> | <for_loop>
+
+<do_while_loop> ::= "do" "{" <statements> "}" "while" "(" <condition> ");"
+
+<for_loop> ::= "for" "(" <for_exp_1> ";" <condition> ";" <for_exp_2> ")" "{" <for_body> "}"
+
+<for_body> ::= <statements> | ε
+
+<for_exp_1>::= <type> <assignment_statement> | <assignment_statement>
+
+<for_exp_2>::= <assignment_statement>
+            |  <prefix_op>
+            |  <postfix_op>
+
+<prefix_op>::= "+" "+" <var_identifier>
+            |  "-" "-" <var_identifier>
+            |  "+" "+" <variable_call_statement>
+            |  "-" "-" <variable_call_statement>
+
+<postfix_op>::= <var_identifier> "+" "+"
+            |  <var_identifier> "-" "-"
+            |  <variable_call_statement> "+" "+"
+            |  <variable_call_statement> "-" "-"
+
+
+<control_statement> ::= <if_statement> | <switch_statement>
+
+<if_statement> ::= "if" "(" <condition> ")" "{" <statements> "}" [<elseif_statement>] [<else_statement>]
+
+<elseif_statement> ::= "else if" "(" <condition> ")" "{" <statements> "}" [<elseif_statement>]
+
+<else_statement> ::= "else" "{" <statements> "}"
+
+<switch_statement> ::= "switch" "(" <expression> ")" "{" <case_statement> "}"
+
+<case_statement> ::= "case" <literal> ":" <statements>* <case_statement>* [<default_statement>]
+
+<default_statement>::= "default" ":" <statements>
+
+<print_statement> ::= "out.print(" <print_parameters>")" ";"
+
+<print_parameters> ::= <string_literal>
+                      | <string_literal> "," <var_identifier>
+
+<return_statement> ::= "return" [<expression>] ";"
+
+<break_statement> ::= "break" ";"
+
+<comment> ::= "//" <any_sequence_except_newline>
+            | "/*" <any_char_sequence> "*/"
+
+<literal> ::= <integer_literal>
+             | <char_literal>
+             | <double_literal>
+             | <boolean_literal>
+             | <string_literal>
+
+<integer_literal> ::= <digit> | <integer_literal> <digit>
+
+<char_literal> ::= "'" <any_char> "'"
+
+<double_literal> ::= <digit>+ "." <digit>+ "d"
+
+<boolean_literal> ::= "true" | "false"
+
+<string_literal> ::= "\"" <any_char_sequence> "\""
+
+<lower> ::= [a-z]
+
+<capital> ::= [A-Z]
+
+<letter> ::= <lower> | <capital>
+
+<digit> ::= [0-9]
+
+<any_char> ::= <letter> | <digit>
+
+<any_special_char> ::= [^A-Za-z0-9]
+
+<any_char_sequence> ::= {<any_char> | <any_special_char>}+ 
+
+<condition> ::= <expression> <comparison_operator> <expression>
+               | "(" <expression> <comparison_operator> <expression> ")"
+               | <condition> <logical_operator> <condition>
+               | "(" <expression> <comparison_operator> <expression> ")"
+
+<comparison_operator> ::= ">" | "<" | "==" | "!="
+
+<logical_operator> ::= "&&" | "||"
